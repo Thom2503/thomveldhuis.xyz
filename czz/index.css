@@ -1,0 +1,94 @@
+body {
+  -webkit-font-smoothing: antialiased;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+	font-family: serif;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+	line-height: 1.6;
+	background: #e2dbc8;
+	color: #333;
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+pre {
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+html {
+  background-image: url("../img/motherboard.png");
+  background-repeat: repeat;
+}
+header {
+	text-align: center;
+	margin-bottom: 40px;
+}
+h1, h2 {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
+	color: purple;
+}
+nav {
+	text-align: center;
+	margin-bottom: 30px;
+}
+nav a {
+	margin: 0 10px;
+	text-decoration: none;
+	color: #555;
+}
+nav a:hover {
+	text-decoration: underline;
+}
+footer {
+	text-align: center;
+	font-size: 0.8em;
+	margin-top: 50px;
+	color: #999;
+}
+
+li {
+  list-style: none;
+}
+
+::-moz-selection {
+  /* Code for Firefox */
+  color: white;
+  background: purple;
+}
+
+::selection {
+  color: white;
+  background: purple;
+}
+
+.buda {
+	font-size: 0.4rem;
+}
+
+/* single page stuff */
+/* section { display: none; } */
+
+/* section:target { display: block; } */
+
+/* smaller screens */
+@media only screen and (max-width: 680px) {
+  html {
+	overflow-x: hidden;
+  }
+  .japanese, .project {
+    width: 100%;
+    height: auto;
+  }
+  body { display: block; }
+
+  main, header, footer {
+  	width: 100%;
+	padding: .5em;
+  }
+
+  .buda {
+	font-size: 0.3rem;
+  }
+}
