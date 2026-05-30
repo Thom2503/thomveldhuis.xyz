@@ -21,9 +21,21 @@
     <a href="#other">OTHER</a>
     <a href="#contact">CONTACT</a>
 	<a href="https://www.thomthomthom.wiki" target="_blank">THOMTHOMTHOM</a>
+	<a id="languageoftheday">L</a>
 </nav>
 
 <main>
+	<dialog id="languagedialog">
+		<button autofocus>Close</button>
+		<h3>Language of the Day!</h3>
+		<p>Mathematical languages are beautiful and fun! Make an automata of the following language. Tomorrow a next one is shown</p>
+		<span id="languagetextspan"></span>
+		<p>Don't know what an automata is? Here some links:
+			<a href="https://en.wikipedia.org/wiki/Automata_theory" target="_blank">Automata Theory</a>
+			or read chapters 4 and 5 of
+			<a href="https://cs.ru.nl/~freek/courses/fr-2025/public/fr.pdf" target="_blank">Formal Reasoning</a>
+		</p>
+	</dialog>
 
 	<section id="about" class="panel panel-about">
     <h2>ABOUT</h2>
@@ -234,6 +246,125 @@ MBO: Software Development, Grafisch Lyceum Rotterdam
 
   </div>
 </footer>
+<script>
+	window.onload = () => {
+		const sigma = new Set(["a","b","c"]);
 
+		const rules = [
+		    {id: "even",       text: () => `even length`,                   param: "none"},
+		    {id: "odd",        text: () => `odd length`,                    param: "none"},
+		    {id: "end",        text: (c) => `ends with ${c}`,               param: "char"},
+		    {id: "begin",      text: (c) => `begins with ${c}`,             param: "char"},
+		    {id: "no_char",    text: (c) => `does not contain ${c}`,        param: "char"},
+		    {id: "yes_char",   text: (c) => `does contain ${c}`,            param: "char"},
+		    {id: "at_most",    text: (c, n) => `at most ${n} of ${c}`,      param: "char+n"},
+		    {id: "at_least",   text: (c, n) => `at least ${n} of ${c}`,    param: "char+n"},
+		    {id: "no_empty",   text: () => `not the empty word`,            param: "none"},
+		    {id: "yes_empty",  text: () => `does have empty word`,          param: "none"},
+		    {id: "no_con",     text: (c) => `no two consecutive ${c}'s`,    param: "char"},
+		    {id: "even_char",  text: (c) => `amount of ${c} is even`,       param: "char"},
+		    {id: "odd_char",   text: (c) => `amount of ${c} is odd`,        param: "char"},
+		];
+		
+		const conflicts = {
+		    even:       ()  => ["odd"],
+		    odd:        ()  => ["even"],
+		    end:        (c) => [],
+		    begin:      (c) => [],
+		    no_char:    (c) => [`even_char_${c}`, `odd_char_${c}`, `begin_${c}`, `end_${c}`, `at_least_${c}`, `yes_char_${c}`],
+		    yes_char:   (c) => [`no_char_${c}`],
+		    at_most:    (c) => [],
+		    at_least:   (c) => [`no_char_${c}`],
+		    no_empty:   ()  => ["yes_empty"],
+		    yes_empty:  ()  => ["no_empty"],
+		    no_con:     (c) => [],
+		    even_char:  (c) => [`odd_char_${c}`, `no_char_${c}`],
+		    odd_char:   (c) => [`even_char_${c}`, `no_char_${c}`],
+		};
+		
+		const rng = (seed) => {
+		    let s = seed >>> 0;
+		    return () => {
+		        s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+		        s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+		        s ^= s >>> 16;
+		        return (s >>> 0) / 0xffffffff;
+		    };
+		};
+		
+		const shuffle = (arr, rand) => {
+		    const a = [...arr];
+		    for (let i = a.length - 1; i > 0; i--) {
+		        const j = Math.floor(rand() * (i + 1));
+		        [a[i], a[j]] = [a[j], a[i]];
+		    }
+		    return a;
+		};
+		
+		const dateSeed = (offset = 0) => {
+		    const d = new Date();
+		    d.setDate(d.getDate() + offset);
+		    return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+		};
+		
+		const language = (sigma, offset) => {
+		    const rand = rng(dateSeed(offset));
+		    const chars = shuffle([...sigma], rand);
+		    const numRules = Math.floor(rand() * 2) + 1 + (rand() < 0.3 ? 1 : 0);
+		    const chosen = [];
+		    const blocked = new Set();
+		
+		    for (const rule of shuffle(rules, rand)) {
+		        if (chosen.length >= numRules) break;
+		        if (blocked.has(rule.id)) continue;
+		
+		        let text, id, rConflicts, ch, n;
+		        switch (rule.param) {
+		            case "none":
+		                text = rule.text();
+		                id = rule.id;
+		                rConflicts = conflicts[rule.id]();
+		                break;
+		            case "char":
+		                ch = chars[Math.floor(rand() * chars.length)];
+		                text = rule.text(ch);
+		                id = rule.id;
+		                rConflicts = conflicts[rule.id](ch);
+		                break;
+		            case "char+n":
+		                ch = chars[Math.floor(rand() * chars.length)];
+		                n = Math.floor(rand() * 2) + 1;
+		                text = rule.text(ch, n);
+		                id = `${rule.id}_${ch}`;
+		                rConflicts = conflicts[rule.id](ch);
+		                break;
+		            default:
+		                break;
+		        }
+		        if (blocked.has(id)) continue;
+		        chosen.push(text);
+		        if (rConflicts) rConflicts.forEach((x) => blocked.add(x));
+		        blocked.add(id);
+		    }
+		
+		    const sigmaString = [...sigma].join(",");
+		    const cond = chosen.join(" and ");
+		    return `L := { w in {${sigmaString}}* | ${cond} }`;
+		};
+
+		const dialog = document.querySelector("dialog");
+		const closeHelpButton = document.querySelector("dialog button");
+		const languageLink = document.getElementById("languageoftheday");
+		const languageText = language(sigma);
+		const languageSpan = document.getElementById("languagetextspan");
+		languageSpan.innerText = languageText;
+		languageLink.addEventListener("click", () => {
+			dialog.showModal();
+		});
+		closeHelpButton.addEventListener("click", () => {
+			dialog.close();
+		});
+	};
+</script>
 </body>
 </html>
