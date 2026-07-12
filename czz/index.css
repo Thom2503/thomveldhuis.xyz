@@ -1,56 +1,92 @@
-/* ————————————————
-   Global / Reset
-   ———————————————— */
+@font-face {
+  font-family: "Computer Modern";
+  src: url('cmunss.otf');
+}
+
+@font-face {
+  font-family: "Computer Modern";
+  src: url('cmunsx.otf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Computer Modern";
+  src: url('cmunsi.otf');
+  font-style: italic, oblique;
+}
+
+@font-face {
+  font-family: "Computer Modern";
+  src: url('cmunbxo.otf');
+  font-weight: bold;
+  font-style: italic, oblique;
+}
+
+@font-face {
+	font-family: 'Computer Modern Serif';
+	src: url('cmunrm.otf');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+@font-face {
+	font-family: 'Computer Modern Serif';
+	src: url('cmunbx.otf');
+	font-weight: bold;
+	font-style: normal;
+}
+
+
+@font-face {
+	font-family: 'Computer Modern Serif';
+	src: url('cmunti.otf');
+	font-weight: normal;
+	font-style: italic;
+}
+
+
+@font-face {
+	font-family: 'Computer Modern Serif';
+	src: url('cmunbi.otf');
+	font-weight: bold;
+	font-style: italic;
+}
+
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
-html {
-    font-size: clamp(14px, 1.2vw, 16px);
-    background-color: #e2dbc8;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ctext x='0' y='20' font-family='monospace' font-size='20' fill='%23aaaaaa'%3E%40%3C/text%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 24px 24px;
-}
-
 body {
     /* margin: 0 auto; */
-	margin: 0;
+	margin: 0 auto;
     padding: 0;
     width: 100%;
     max-width: 80ch;
     background: #e2dbc8;
     color: #333;
-    font-family: Consolas, Monaco, Lucida Console, Liberation Mono,
-                 DejaVu Sans Mono, Bitstream Vera Sans Mono,
-                 Courier New, monospace;
-    -webkit-font-smoothing: antialiased;
-    hyphens: auto;
+	-webkit-font-smoothing: antialiased;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto;
+	border: 2px inset #0008;
+	font-family: "Computer Modern Serif", serif;
 }
 
-/* ————————————————
-   Header & Navigation
-   ———————————————— */
 header {
     padding: 1.25rem;
-    border-bottom: 3px solid #000;
+    background: #f7f7f7;
 }
 
 header h1 {
     margin: 0;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
     text-transform: uppercase;
 }
 
-header .tagline {
-    color: #555;
-    font-size: 1rem;
-}
-
-h1, h2 {
-    border-bottom: 1px solid #ccc;
+h1, h2, h3 {
     padding-bottom: 5px;
     color: purple;
 }
@@ -60,8 +96,8 @@ nav {
     flex-wrap: wrap;
     gap: 1.25rem;
     padding: 1rem;
-    border-bottom: 4px solid #000;
     font-weight: bold;
+    background: #f7f7f7;
 }
 
 nav a {
@@ -69,21 +105,16 @@ nav a {
     text-decoration: underline;
 }
 
-/* ————————————————
-   Main Content & Panels
-   ———————————————— */
 main {
     padding: 2rem;
+    background: #f7f7f7;
 }
 
 .panel {
-    padding: 2rem;
-    border-top: 2px dashed #000;
     margin-bottom: 2rem;
 }
 
 .panel-text article {
-    border-left: 3px solid #000;
     padding-left: 1rem;
     margin-bottom: 1rem;
 }
@@ -94,12 +125,10 @@ pre {
 	font-size: 85%;
 }
 
-/* Code / ASCII blocks */
 .code-example {
     font-family: inherit;
     background: #f7f7f7;
     padding: 1rem;
-    border: 2px solid #000;
     overflow-x: auto;
     white-space: pre;
     -webkit-overflow-scrolling: touch;
@@ -113,20 +142,14 @@ pre {
 .panel-grid .grid {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 .panel-grid .grid div {
-    border: 1px solid #000;
     padding: 1rem;
     background: #fafafa;
 }
 
-/* ————————————————
-   About Section
-   ———————————————— */
 .panel-about p {
-    margin: 0.8rem 0;
     font-size: 1rem;
 }
 
@@ -137,41 +160,33 @@ pre {
 }
 
 .panel-about .bio-list li {
-    border-bottom: 1px dashed #444;
     padding: 0.4rem 0;
     font-weight: bold;
 }
 
 .panel-about .code-example {
     background: #f4f4f4;
-    border: 2px solid #000;
     padding: 1rem;
     margin-top: 1.2rem;
 }
 
-/* ————————————————
-   Projects
-   ———————————————— */
 .panel-projects .intro {
-    margin: 0.8rem 0 1.6rem;
     font-style: italic;
 }
 
 .project-group {
-    margin-top: 2rem;
-    border-top: 2px solid #000;
+    margin-top: -1rem;
     padding-top: 1rem;
 }
 
 .project {
     margin: 1rem 0;
-    border-bottom: 1px dashed #444;
     padding-bottom: 0.8rem;
 }
 
 .project h4 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-transform: uppercase;
 }
 
@@ -187,19 +202,13 @@ pre {
     font-size: 1rem;
 }
 
-/* ————————————————
-   Footer
-   ———————————————— */
 footer {
     padding: 1rem;
     text-align: center;
-    border-top: 3px solid #000;
     font-size: 0.9rem;
+    background: #f7f7f7;
 }
 
-/* ————————————————
-   Misc
-   ———————————————— */
 li {
     list-style: none;
 }
@@ -218,9 +227,59 @@ li {
     background: purple;
 }
 
-/* ————————————————
-   Mobile Layout (NO ASCII BG)
-   ———————————————— */
+section.panel {
+	scroll-margin-top: 100vh;
+	display: none;
+}
+
+section.panel:target {
+	display: block;
+}
+
+details {
+	border-block-end: 1px solid #000;
+	margin-block: .5rem;
+	padding-block: .5rem;
+}
+
+summary {
+  position: relative;
+  anchor-name: --summary;
+
+  &::marker {
+    content: "";
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    border-block-start: 3px solid black;
+    height: 0;
+    width: 1rem;
+
+    inset-block-start: 50%;
+    inset-inline-end: 0;
+
+    position: absolute;
+    position-anchor: --summary;
+    position-area: top end;
+  }
+
+  &::after {
+    transform: rotate(90deg);
+    transform-origin: 50%;
+  }
+}
+
+details[open] > summary::after {
+  transform: rotate(0deg);
+}
+
+a {
+	font-family: 'Courier New', monospace !important;
+	cursor: pointer;
+}
+
 @media (max-width: 680px) {
     html {
         background-image: none;
